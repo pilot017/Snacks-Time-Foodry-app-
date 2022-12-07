@@ -6,6 +6,8 @@ import 'package:foodry/widgets/icon_and _text_widget.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
 import 'package:foodry/util/colors.dart';
+import 'package:foodry/util/dimensions.dart';
+
 
 
 class SnacksPageBody extends StatefulWidget {
@@ -19,7 +21,7 @@ class _SnacksPageBodyState extends State<SnacksPageBody> {
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currPageValue = 0.0;
   double _scaleFactor = 0.8;
-  double _height = 220;
+  double _height = Dimensions.pageViewController;
 
   @override
   void initState(){
@@ -42,8 +44,11 @@ class _SnacksPageBodyState extends State<SnacksPageBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+
+        //slider section
+
         Container(
-          height: 320,
+          height: Dimensions.pageView,
           // color: Colors.blue,
           child: PageView.builder(
               controller: pageController,
@@ -52,6 +57,9 @@ class _SnacksPageBodyState extends State<SnacksPageBody> {
                 return _buildPageItem(position);
               }),
         ),
+
+        //dots
+
         new DotsIndicator(
             dotsCount: 5,
             position: _currPageValue,
@@ -62,6 +70,77 @@ class _SnacksPageBodyState extends State<SnacksPageBody> {
               activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))
             ),
         ),
+
+        //Popular text
+        SizedBox(height: Dimensions.height30,),
+        Container(
+          margin: EdgeInsets.only(left: Dimensions.width30),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              BigText(text: "Popular"),
+              SizedBox(width: Dimensions.width10,),
+              Container(
+                margin: const EdgeInsets.only(bottom: 3),
+                child: BigText(text: ".", color: Colors.black26,),
+              ),
+              SizedBox(width: Dimensions.width10,),
+              Container(
+                margin: const EdgeInsets.only(bottom: 2),
+                child: SmallText(text: "Food paring"),
+              )
+            ],
+          ),
+        ),
+
+        //List of snacks and images container
+        Container(
+          height: 700,
+          child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              // shrinkWrap: true,
+              itemCount: 10,
+              itemBuilder: (context, index){
+                return Container(
+                  margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom: Dimensions.height10),
+                  child: Row(
+                    children: [
+
+                      //image container
+                      Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(Dimensions.radius20),
+                            color: Colors.white38,
+                            image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/images/oreo2.jpeg"
+                              ),
+                              fit: BoxFit.cover
+                            )
+                        ),
+                      ),
+
+                      //text container
+                      Container(
+                        height: 100,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Dimensions.radius20),
+                          color: Colors.white
+                        ),
+                      )
+
+                    ],
+                  ),
+                );
+              }
+          ),
+        )
+
+
+
     ],
     );
   }
@@ -94,10 +173,10 @@ class _SnacksPageBodyState extends State<SnacksPageBody> {
       child: Stack(
         children: [
           Container(
-            height: 220,
-            margin: EdgeInsets.only(left: 10, right: 10),
+            height: Dimensions.pageViewController,
+            margin: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(Dimensions.radius30),
                 color: index.isEven?Color(0xFFccc7c5):Color(0xFF9294cc),
                 image: DecorationImage(
                     fit: BoxFit.fill,
@@ -110,10 +189,10 @@ class _SnacksPageBodyState extends State<SnacksPageBody> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 120,
-              margin: EdgeInsets.only(left: 40, right: 40, bottom: 30),
+              height: Dimensions.pageViewTextContainer,
+              margin: EdgeInsets.only(left: Dimensions.width30, right: Dimensions.width30, bottom: Dimensions.height30),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(Dimensions.radius20),
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
@@ -132,13 +211,15 @@ class _SnacksPageBodyState extends State<SnacksPageBody> {
                 ]
               ),
               child: Container(
-                padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+                padding: EdgeInsets.only(left: 15, right: 15, top: Dimensions.height15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BigText(text: "Pringles"),
-                    SizedBox(height: 10,),
+                    SizedBox(height: Dimensions.height10,),
+                    //comments section
                     Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Wrap(
                           children: List.generate(5, (index) => Icon(Icons.star_rate_rounded, color: AppColors.mainColor, size: 15,)),
@@ -151,14 +232,15 @@ class _SnacksPageBodyState extends State<SnacksPageBody> {
                         SmallText(text: "comments")
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: Dimensions.height20,),
+                    //time and distance
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconAndTextWidget(
                             text: 'Normal',
                             iconColor: AppColors.iconColor1,
-                            icon: Icons.circle_sharp),
+                            icon: Icons.circle_sharp,),
                         IconAndTextWidget(
                             text: '1.7km',
                             iconColor: AppColors.mainColor,
